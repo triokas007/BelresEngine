@@ -175,10 +175,10 @@ Module ServerGeneral
         ' load options, set if they dont exist
         If Not File.Exists(Path.Combine(Application.StartupPath, "Data", "Config.xml")) Then
 
-            Options.GameName = "Orion+"
+            Options.GameName = "Belres"
             Options.Port = 7001
-            Options.Motd = "Welcome to the Orion+ Engine"
-            Options.Website = "http://ascensiongamedev.com/index.php"
+            Options.Motd = "Welcome to Belres"
+            Options.Website = ""
             Options.StartMap = 1
             Options.StartX = 13
             Options.StartY = 7
@@ -219,12 +219,12 @@ Module ServerGeneral
         time2 = GetTimeMs()
 
         Console.Clear()
-        Console.WriteLine("  ____       _                        _____                          ")
-        Console.WriteLine(" / __ \     (_)                _     / ____|                         ")
-        Console.WriteLine("| |  | |_ __ _  ___  _ __    _| |_  | (___   ___ _ ____   _____ _ __ ")
-        Console.WriteLine("| |  | | '__| |/ _ \| '_ \  |_   _|  \___ \ / _ \ '__\ \ / / _ \ '__|")
-        Console.WriteLine("| |__| | |  | | (_) | | | |   |_|    ____) |  __/ |   \ V /  __/ |   ")
-        Console.WriteLine(" \____/|_|  |_|\___/|_| |_|         |_____/ \___|_|    \_/ \___|_|   ")
+        Console.WriteLine(" ____       _               ")
+        Console.WriteLine("|  _ \     | |              ")
+        Console.WriteLine("| |_) | ___| |_ __ ___  ___ ")
+        Console.WriteLine("|  _ < / _ \ | '__/ _ \/ __|")
+        Console.WriteLine("| |_) |  __/ | | |  __/\__ \")
+        Console.WriteLine("|____/ \___|_|_|  \___||___/")
 
         Console.WriteLine("")
 

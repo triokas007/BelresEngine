@@ -117,8 +117,8 @@ Friend Class FrmMenu
 
         'main menu panels
         If File.Exists(Application.StartupPath & GfxGuiPath & "Menu\panel" & GfxExt) Then
-            pnlLogin.BackgroundImage = Image.FromFile(Application.StartupPath & GfxGuiPath & "Menu\panel" & GfxExt)
-            pnlNewChar.BackgroundImage = Image.FromFile(Application.StartupPath & GfxGuiPath & "Menu\panel" & GfxExt)
+            pnlLogin.BackgroundImage = Image.FromFile(Application.StartupPath & GfxGuiPath & "Menu\login" & GfxExt)
+            pnlNewChar.BackgroundImage = Image.FromFile(Application.StartupPath & GfxGuiPath & "Menu\class_none" & GfxExt)
             pnlCharSelect.BackgroundImage = Image.FromFile(Application.StartupPath & GfxGuiPath & "Menu\panel" & GfxExt)
             pnlRegister.BackgroundImage = Image.FromFile(Application.StartupPath & GfxGuiPath & "Menu\panel" & GfxExt)
             pnlCredits.BackgroundImage = Image.FromFile(Application.StartupPath & GfxGuiPath & "Menu\panel" & GfxExt)
@@ -145,12 +145,9 @@ Friend Class FrmMenu
 
         'new char panel
         lblNewChar.Text = Strings.Get("mainmenu", "newchar")
-        lblNewCharName.Text = Strings.Get("mainmenu", "newcharname")
-        lblNewCharClass.Text = Strings.Get("mainmenu", "newcharclass")
-        lblNewCharGender.Text = Strings.Get("mainmenu", "newchargender")
         rdoMale.Text = Strings.Get("mainmenu", "newcharmale")
         rdoFemale.Text = Strings.Get("mainmenu", "newcharfemale")
-        lblNewCharSprite.Text = Strings.Get("mainmenu", "newcharsprite")
+        'lblNewCharSprite.Text = Strings.Get("mainmenu", "newcharsprite")
         btnCreateCharacter.Text = Strings.Get("mainmenu", "newcharbutton")
 
         'char select
@@ -201,7 +198,6 @@ Friend Class FrmMenu
             charheight = charsprite.Height / 4
 
             srcRect = New Rectangle(0, 0, charwidth, charheight)
-            destRect = New Rectangle(placeholderforsprite.Left, placeholderforsprite.Top, charwidth, charheight)
 
             charsprite.MakeTransparent(charsprite.GetPixel(0, 0))
 
@@ -377,8 +373,9 @@ Friend Class FrmMenu
     ''' </summary>
     Private Sub CmbClass_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbClass.SelectedIndexChanged
         NewCharClass = cmbClass.SelectedIndex + 1
-        txtDescription.Text = Classes(NewCharClass).Desc
-        DrawCharacter()
+        'Print(NewCharClass)
+        'txtDescription.Text = Classes(NewCharClass).Desc
+        'DrawCharacter()
     End Sub
 
     ''' <summary>
@@ -398,7 +395,7 @@ Friend Class FrmMenu
     ''' <summary>
     ''' Switches sprite for selected class to next one, if any.
     ''' </summary>
-    Private Sub LblNextChar_Click(sender As Object, e As EventArgs) Handles lblNextChar.Click
+    Private Sub LblNextChar_Click(sender As Object, e As EventArgs)
         NewCharSprite = NewCharSprite + 1
         If rdoMale.Checked = True Then
             If NewCharSprite > Classes(NewCharClass).MaleSprite.Length - 1 Then NewCharSprite = 1
@@ -411,7 +408,7 @@ Friend Class FrmMenu
     ''' <summary>
     ''' Switches sprite for selected class to previous one, if any.
     ''' </summary>
-    Private Sub LblPrevChar_Click(sender As Object, e As EventArgs) Handles lblPrevChar.Click
+    Private Sub LblPrevChar_Click(sender As Object, e As EventArgs)
         NewCharSprite = NewCharSprite - 1
         If rdoMale.Checked = True Then
             If NewCharSprite = 0 Then NewCharSprite = Classes(NewCharClass).MaleSprite.Length - 1
@@ -748,6 +745,21 @@ Friend Class FrmMenu
 
     Private Sub txtboxLogin_TextChanged(sender As Object, e As EventArgs) Handles txtboxLogin.TextChanged
 
+    End Sub
+
+    Private Sub ClassSelect01_Click(sender As Object, e As EventArgs) Handles ClassSelect01.Click
+        cmbClass.SelectedItem = cmbClass.Items(0)
+        pnlNewChar.BackgroundImage = Image.FromFile(Application.StartupPath & GfxGuiPath & "Menu\class_mage" & GfxExt)
+    End Sub
+
+    Private Sub ClassSelect02_Click(sender As Object, e As EventArgs) Handles ClassSelect02.Click
+        cmbClass.SelectedItem = cmbClass.Items(1)
+        pnlNewChar.BackgroundImage = Image.FromFile(Application.StartupPath & GfxGuiPath & "Menu\class_sold" & GfxExt)
+    End Sub
+
+    Private Sub ClassSelect03_Click(sender As Object, e As EventArgs) Handles ClassSelect03.Click
+        cmbClass.SelectedItem = cmbClass.Items(2)
+        pnlNewChar.BackgroundImage = Image.FromFile(Application.StartupPath & GfxGuiPath & "Menu\class_burg" & GfxExt)
     End Sub
 
 #End Region

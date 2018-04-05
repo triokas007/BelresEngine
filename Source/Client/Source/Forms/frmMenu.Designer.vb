@@ -46,19 +46,11 @@ Partial Class FrmMenu
         Me.lblScrollingCredits = New System.Windows.Forms.Label()
         Me.tmrCredits = New System.Windows.Forms.Timer(Me.components)
         Me.pnlNewChar = New System.Windows.Forms.Panel()
-        Me.txtDescription = New System.Windows.Forms.TextBox()
-        Me.lblNewCharSprite = New System.Windows.Forms.Label()
         Me.btnCreateCharacter = New System.Windows.Forms.Button()
-        Me.placeholderforsprite = New System.Windows.Forms.PictureBox()
-        Me.lblNextChar = New System.Windows.Forms.Label()
-        Me.lblPrevChar = New System.Windows.Forms.Label()
         Me.rdoFemale = New System.Windows.Forms.RadioButton()
         Me.rdoMale = New System.Windows.Forms.RadioButton()
         Me.cmbClass = New System.Windows.Forms.ComboBox()
-        Me.lblNewCharGender = New System.Windows.Forms.Label()
-        Me.lblNewCharClass = New System.Windows.Forms.Label()
         Me.txtCharName = New System.Windows.Forms.TextBox()
-        Me.lblNewCharName = New System.Windows.Forms.Label()
         Me.lblNewChar = New System.Windows.Forms.Label()
         Me.pnlIPConfig = New System.Windows.Forms.Panel()
         Me.btnSaveIP = New System.Windows.Forms.Button()
@@ -84,11 +76,15 @@ Partial Class FrmMenu
         Me.Label16 = New System.Windows.Forms.Label()
         Me.pnlLoad = New System.Windows.Forms.Panel()
         Me.lblStatus = New System.Windows.Forms.Label()
+        Me.txtDescription = New System.Windows.Forms.TextBox()
+        Me.ClassSelect01 = New System.Windows.Forms.PictureBox()
+        Me.ClassSelect02 = New System.Windows.Forms.PictureBox()
+        Me.ClassSelect03 = New System.Windows.Forms.PictureBox()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.pnlLogin.SuspendLayout()
         Me.pnlRegister.SuspendLayout()
         Me.pnlCredits.SuspendLayout()
         Me.pnlNewChar.SuspendLayout()
-        CType(Me.placeholderforsprite, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlIPConfig.SuspendLayout()
         CType(Me.picLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlCharSelect.SuspendLayout()
@@ -96,6 +92,10 @@ Partial Class FrmMenu
         CType(Me.picChar2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.picChar1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlLoad.SuspendLayout()
+        CType(Me.ClassSelect01, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ClassSelect02, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ClassSelect03, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'pnlLogin
@@ -339,45 +339,23 @@ Partial Class FrmMenu
         Me.pnlNewChar.BackColor = System.Drawing.Color.Transparent
         Me.pnlNewChar.BackgroundImage = CType(resources.GetObject("pnlNewChar.BackgroundImage"), System.Drawing.Image)
         Me.pnlNewChar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.pnlNewChar.Controls.Add(Me.PictureBox1)
+        Me.pnlNewChar.Controls.Add(Me.ClassSelect03)
+        Me.pnlNewChar.Controls.Add(Me.ClassSelect02)
+        Me.pnlNewChar.Controls.Add(Me.ClassSelect01)
         Me.pnlNewChar.Controls.Add(Me.txtDescription)
-        Me.pnlNewChar.Controls.Add(Me.lblNewCharSprite)
         Me.pnlNewChar.Controls.Add(Me.btnCreateCharacter)
-        Me.pnlNewChar.Controls.Add(Me.placeholderforsprite)
-        Me.pnlNewChar.Controls.Add(Me.lblNextChar)
-        Me.pnlNewChar.Controls.Add(Me.lblPrevChar)
         Me.pnlNewChar.Controls.Add(Me.rdoFemale)
         Me.pnlNewChar.Controls.Add(Me.rdoMale)
         Me.pnlNewChar.Controls.Add(Me.cmbClass)
-        Me.pnlNewChar.Controls.Add(Me.lblNewCharGender)
-        Me.pnlNewChar.Controls.Add(Me.lblNewCharClass)
         Me.pnlNewChar.Controls.Add(Me.txtCharName)
-        Me.pnlNewChar.Controls.Add(Me.lblNewCharName)
         Me.pnlNewChar.Controls.Add(Me.lblNewChar)
         Me.pnlNewChar.ForeColor = System.Drawing.Color.White
-        Me.pnlNewChar.Location = New System.Drawing.Point(737, 204)
+        Me.pnlNewChar.Location = New System.Drawing.Point(0, 0)
         Me.pnlNewChar.Name = "pnlNewChar"
-        Me.pnlNewChar.Size = New System.Drawing.Size(400, 192)
+        Me.pnlNewChar.Size = New System.Drawing.Size(1920, 1080)
         Me.pnlNewChar.TabIndex = 43
         Me.pnlNewChar.Visible = False
-        '
-        'txtDescription
-        '
-        Me.txtDescription.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDescription.Location = New System.Drawing.Point(227, 76)
-        Me.txtDescription.Multiline = True
-        Me.txtDescription.Name = "txtDescription"
-        Me.txtDescription.Size = New System.Drawing.Size(157, 62)
-        Me.txtDescription.TabIndex = 44
-        '
-        'lblNewCharSprite
-        '
-        Me.lblNewCharSprite.AutoSize = True
-        Me.lblNewCharSprite.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblNewCharSprite.Location = New System.Drawing.Point(49, 71)
-        Me.lblNewCharSprite.Name = "lblNewCharSprite"
-        Me.lblNewCharSprite.Size = New System.Drawing.Size(42, 17)
-        Me.lblNewCharSprite.TabIndex = 43
-        Me.lblNewCharSprite.Text = "Sprite"
         '
         'btnCreateCharacter
         '
@@ -386,45 +364,18 @@ Partial Class FrmMenu
         Me.btnCreateCharacter.FlatStyle = System.Windows.Forms.FlatStyle.Popup
         Me.btnCreateCharacter.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnCreateCharacter.ImageAlign = System.Drawing.ContentAlignment.TopLeft
-        Me.btnCreateCharacter.Location = New System.Drawing.Point(263, 150)
+        Me.btnCreateCharacter.Location = New System.Drawing.Point(884, 928)
         Me.btnCreateCharacter.Name = "btnCreateCharacter"
         Me.btnCreateCharacter.Size = New System.Drawing.Size(121, 26)
         Me.btnCreateCharacter.TabIndex = 42
         Me.btnCreateCharacter.Text = "Create Character"
         Me.btnCreateCharacter.UseVisualStyleBackColor = True
         '
-        'placeholderforsprite
-        '
-        Me.placeholderforsprite.Location = New System.Drawing.Point(50, 91)
-        Me.placeholderforsprite.Name = "placeholderforsprite"
-        Me.placeholderforsprite.Size = New System.Drawing.Size(48, 60)
-        Me.placeholderforsprite.TabIndex = 41
-        Me.placeholderforsprite.TabStop = False
-        Me.placeholderforsprite.Visible = False
-        '
-        'lblNextChar
-        '
-        Me.lblNextChar.AutoSize = True
-        Me.lblNextChar.Location = New System.Drawing.Point(100, 156)
-        Me.lblNextChar.Name = "lblNextChar"
-        Me.lblNextChar.Size = New System.Drawing.Size(15, 13)
-        Me.lblNextChar.TabIndex = 40
-        Me.lblNextChar.Text = ">"
-        '
-        'lblPrevChar
-        '
-        Me.lblPrevChar.AutoSize = True
-        Me.lblPrevChar.Location = New System.Drawing.Point(37, 156)
-        Me.lblPrevChar.Name = "lblPrevChar"
-        Me.lblPrevChar.Size = New System.Drawing.Size(15, 13)
-        Me.lblPrevChar.TabIndex = 39
-        Me.lblPrevChar.Text = "<"
-        '
         'rdoFemale
         '
         Me.rdoFemale.AutoSize = True
         Me.rdoFemale.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rdoFemale.Location = New System.Drawing.Point(135, 118)
+        Me.rdoFemale.Location = New System.Drawing.Point(938, 960)
         Me.rdoFemale.Name = "rdoFemale"
         Me.rdoFemale.Size = New System.Drawing.Size(67, 21)
         Me.rdoFemale.TabIndex = 38
@@ -436,7 +387,7 @@ Partial Class FrmMenu
         '
         Me.rdoMale.AutoSize = True
         Me.rdoMale.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rdoMale.Location = New System.Drawing.Point(135, 93)
+        Me.rdoMale.Location = New System.Drawing.Point(884, 960)
         Me.rdoMale.Name = "rdoMale"
         Me.rdoMale.Size = New System.Drawing.Size(55, 21)
         Me.rdoMale.TabIndex = 37
@@ -449,56 +400,25 @@ Partial Class FrmMenu
         Me.cmbClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbClass.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmbClass.FormattingEnabled = True
-        Me.cmbClass.Location = New System.Drawing.Point(227, 43)
+        Me.cmbClass.Location = New System.Drawing.Point(1648, 18)
         Me.cmbClass.Name = "cmbClass"
         Me.cmbClass.Size = New System.Drawing.Size(157, 25)
         Me.cmbClass.TabIndex = 36
         '
-        'lblNewCharGender
-        '
-        Me.lblNewCharGender.AutoSize = True
-        Me.lblNewCharGender.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblNewCharGender.Location = New System.Drawing.Point(133, 75)
-        Me.lblNewCharGender.Name = "lblNewCharGender"
-        Me.lblNewCharGender.Size = New System.Drawing.Size(54, 17)
-        Me.lblNewCharGender.TabIndex = 34
-        Me.lblNewCharGender.Text = "Gender:"
-        '
-        'lblNewCharClass
-        '
-        Me.lblNewCharClass.AutoSize = True
-        Me.lblNewCharClass.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblNewCharClass.Location = New System.Drawing.Point(186, 45)
-        Me.lblNewCharClass.Name = "lblNewCharClass"
-        Me.lblNewCharClass.Size = New System.Drawing.Size(41, 17)
-        Me.lblNewCharClass.TabIndex = 33
-        Me.lblNewCharClass.Text = "Class:"
-        '
         'txtCharName
         '
         Me.txtCharName.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCharName.Location = New System.Drawing.Point(59, 42)
+        Me.txtCharName.Location = New System.Drawing.Point(884, 897)
         Me.txtCharName.Name = "txtCharName"
         Me.txtCharName.Size = New System.Drawing.Size(121, 25)
         Me.txtCharName.TabIndex = 32
-        '
-        'lblNewCharName
-        '
-        Me.lblNewCharName.AutoSize = True
-        Me.lblNewCharName.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblNewCharName.ForeColor = System.Drawing.Color.White
-        Me.lblNewCharName.Location = New System.Drawing.Point(13, 45)
-        Me.lblNewCharName.Name = "lblNewCharName"
-        Me.lblNewCharName.Size = New System.Drawing.Size(46, 17)
-        Me.lblNewCharName.TabIndex = 31
-        Me.lblNewCharName.Text = "Name:"
         '
         'lblNewChar
         '
         Me.lblNewChar.AutoSize = True
         Me.lblNewChar.Font = New System.Drawing.Font("Segoe UI Semibold", 21.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblNewChar.ForeColor = System.Drawing.Color.White
-        Me.lblNewChar.Location = New System.Drawing.Point(85, 1)
+        Me.lblNewChar.Location = New System.Drawing.Point(782, 77)
         Me.lblNewChar.Name = "lblNewChar"
         Me.lblNewChar.Size = New System.Drawing.Size(235, 40)
         Me.lblNewChar.TabIndex = 30
@@ -802,6 +722,47 @@ Partial Class FrmMenu
         Me.lblStatus.Text = "Loading text"
         Me.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
+        'txtDescription
+        '
+        Me.txtDescription.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDescription.Location = New System.Drawing.Point(1648, 12)
+        Me.txtDescription.Multiline = True
+        Me.txtDescription.Name = "txtDescription"
+        Me.txtDescription.Size = New System.Drawing.Size(157, 62)
+        Me.txtDescription.TabIndex = 44
+        '
+        'ClassSelect01
+        '
+        Me.ClassSelect01.Location = New System.Drawing.Point(129, 192)
+        Me.ClassSelect01.Name = "ClassSelect01"
+        Me.ClassSelect01.Size = New System.Drawing.Size(476, 614)
+        Me.ClassSelect01.TabIndex = 45
+        Me.ClassSelect01.TabStop = False
+        '
+        'ClassSelect02
+        '
+        Me.ClassSelect02.Location = New System.Drawing.Point(740, 178)
+        Me.ClassSelect02.Name = "ClassSelect02"
+        Me.ClassSelect02.Size = New System.Drawing.Size(453, 648)
+        Me.ClassSelect02.TabIndex = 46
+        Me.ClassSelect02.TabStop = False
+        '
+        'ClassSelect03
+        '
+        Me.ClassSelect03.Location = New System.Drawing.Point(1295, 191)
+        Me.ClassSelect03.Name = "ClassSelect03"
+        Me.ClassSelect03.Size = New System.Drawing.Size(471, 635)
+        Me.ClassSelect03.TabIndex = 47
+        Me.ClassSelect03.TabStop = False
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.Location = New System.Drawing.Point(1605, 12)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(218, 82)
+        Me.PictureBox1.TabIndex = 48
+        Me.PictureBox1.TabStop = False
+        '
         'FrmMenu
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -839,7 +800,6 @@ Partial Class FrmMenu
         Me.pnlCredits.PerformLayout()
         Me.pnlNewChar.ResumeLayout(False)
         Me.pnlNewChar.PerformLayout()
-        CType(Me.placeholderforsprite, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlIPConfig.ResumeLayout(False)
         Me.pnlIPConfig.PerformLayout()
         CType(Me.picLogo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -849,6 +809,10 @@ Partial Class FrmMenu
         CType(Me.picChar2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.picChar1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlLoad.ResumeLayout(False)
+        CType(Me.ClassSelect01, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ClassSelect02, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ClassSelect03, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -870,16 +834,10 @@ Partial Class FrmMenu
     Friend WithEvents lblScrollingCredits As System.Windows.Forms.Label
     Friend WithEvents tmrCredits As System.Windows.Forms.Timer
     Friend WithEvents pnlNewChar As System.Windows.Forms.Panel
-    Friend WithEvents placeholderforsprite As System.Windows.Forms.PictureBox
-    Friend WithEvents lblNextChar As System.Windows.Forms.Label
-    Friend WithEvents lblPrevChar As System.Windows.Forms.Label
     Friend WithEvents rdoFemale As System.Windows.Forms.RadioButton
     Friend WithEvents rdoMale As System.Windows.Forms.RadioButton
     Friend WithEvents cmbClass As System.Windows.Forms.ComboBox
-    Friend WithEvents lblNewCharGender As System.Windows.Forms.Label
-    Friend WithEvents lblNewCharClass As System.Windows.Forms.Label
     Friend WithEvents txtCharName As System.Windows.Forms.TextBox
-    Friend WithEvents lblNewCharName As System.Windows.Forms.Label
     Friend WithEvents lblNewChar As System.Windows.Forms.Label
     Friend WithEvents pnlIPConfig As Windows.Forms.Panel
     Friend WithEvents txtPort As Windows.Forms.TextBox
@@ -906,10 +864,13 @@ Partial Class FrmMenu
     Friend WithEvents btnDelChar As Windows.Forms.Button
     Friend WithEvents btnNewChar As Windows.Forms.Button
     Friend WithEvents btnUseChar As Windows.Forms.Button
-    Friend WithEvents txtDescription As Windows.Forms.TextBox
-    Friend WithEvents lblNewCharSprite As Windows.Forms.Label
     Friend WithEvents pnlLoad As Windows.Forms.Panel
     Friend WithEvents lblStatus As Windows.Forms.Label
     Friend WithEvents txtboxLogin As ZBobb.AlphaBlendTextBox
     Friend WithEvents txtboxPassword As ZBobb.AlphaBlendTextBox
+    Friend WithEvents txtDescription As Windows.Forms.TextBox
+    Friend WithEvents ClassSelect03 As Windows.Forms.PictureBox
+    Friend WithEvents ClassSelect02 As Windows.Forms.PictureBox
+    Friend WithEvents ClassSelect01 As Windows.Forms.PictureBox
+    Friend WithEvents PictureBox1 As Windows.Forms.PictureBox
 End Class

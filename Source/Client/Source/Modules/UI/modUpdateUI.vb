@@ -300,10 +300,6 @@
             DrawChar = True
         End If
 
-        If lblnextcharleft <> FrmMenu.lblNextChar.Left Then
-            FrmMenu.lblNextChar.Left = lblnextcharleft
-        End If
-
         If Not cmbclass Is Nothing Then
             FrmMenu.cmbClass.Items.Clear()
 

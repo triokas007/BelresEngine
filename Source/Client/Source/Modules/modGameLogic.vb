@@ -18,7 +18,6 @@ Module ModGameLogic
         Dim rendercount As Integer, fadetmr As Integer
 
         starttime = GetTickCount()
-        FrmMenu.lblNextChar.Left = Lblnextcharleft
 
         Do
             If GameDestroyed Then End
