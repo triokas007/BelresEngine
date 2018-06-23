@@ -1376,8 +1376,8 @@ Module ServerNetworkSend
     Sub SendPlayerXY(index as integer)
         dim buffer as ByteStream
         Buffer = New ByteStream(4)
-        Buffer.WriteInt32(ServerPackets.SPlayerXY)
-        Buffer.WriteInt32(GetPlayerX(Index))
+        buffer.WriteInt32(ServerPackets.SPlayerXY)
+        buffer.WriteInt32(GetPlayerX(Index))
         Buffer.WriteInt32(GetPlayerY(Index))
         Buffer.WriteInt32(GetPlayerDir(Index))
         Socket.SendDataTo(Index, Buffer.Data, Buffer.Head)

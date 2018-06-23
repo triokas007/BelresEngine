@@ -144,7 +144,7 @@ Friend Class FrmMenu
         btnLogin.Text = Strings.Get("mainmenu", "loginbutton")
 
         'new char panel
-        lblNewChar.Text = Strings.Get("mainmenu", "newchar")
+        'lblNewChar.Text = Strings.Get("mainmenu", "newchar")
         rdoMale.Text = Strings.Get("mainmenu", "newcharmale")
         rdoFemale.Text = Strings.Get("mainmenu", "newcharfemale")
         'lblNewCharSprite.Text = Strings.Get("mainmenu", "newcharsprite")
