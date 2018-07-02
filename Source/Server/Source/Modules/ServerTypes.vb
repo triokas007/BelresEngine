@@ -51,8 +51,9 @@
         Dim Map As Integer
         Dim X As Byte
         Dim Y As Byte
+        Dim Inertia As Byte
         Dim Dir As Byte
-
+        Dim IsInerting As Boolean
         Dim PlayerQuest() As PlayerQuestRec
 
         'Housing
