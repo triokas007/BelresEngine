@@ -1241,213 +1241,8 @@ Module ServerPlayers
 
     End Sub
 
-    Sub PlayerInert(ByVal index As Long, ByVal Inertia As Long, ByVal inerting As Long, Optional ByVal JumpStartY As Long = -1, Optional ByVal DropDown As Boolean = False, Optional ByVal sendToSelf As Boolean = False)
-        Dim Inerted As Boolean, InertedSoFar As Boolean
-        Dim TileType As Long
-        Dim Jump As Long
-        Dim mapNum As Integer, Buffer As ByteStream
-        Dim x As Integer, y As Integer, begineventprocessing As Boolean
-        Dim Moved As Boolean, DidWarp As Boolean
-        Dim NewMapX As Byte, NewMapY As Byte
-        Dim VitalType As Integer, Colour As Integer, amount As Integer
 
-        ' Check for subscript out of range
-        If IsPlaying(index) = False Or Inertia < DirectionType.Up Or Inertia > DirectionType.Down Or inerting < INERTING_NORMAL Or inerting > INERTING_WATER Then
-            Exit Sub
-        End If
-
-        Call SetPlayerInertia(index, Inertia)
-        Player(index).Character(TempPlayer(index).CurChar).IsInerting = False
-        Inerted = False
-        mapNum = GetPlayerMap(index)
-
-
-        If GetPlayerEquipment(index, Armor) > 0 Then
-            Jump = Item(GetPlayerEquipment(index, Armor)).Jump
-        Else
-            Jump = 0
-        End If
-
-
-        Select Case Inertia
-            Case DirectionType.Down
-
-                ' Check to make sure not outside of boundries
-                If GetPlayerY(index) < Map(mapNum).MaxY Then
-
-                    ' Check to make sure that the tile is walkable
-                    If Not IsDirBlocked(Map(GetPlayerMap(index)).Tile(GetPlayerX(index), GetPlayerY(index)).DirBlock, DirectionType.Down + 1) Then
-                        If Map(GetPlayerMap(index)).Tile(GetPlayerX(index), GetPlayerY(index) + 1).Type <> TileType Then
-                            If Map(GetPlayerMap(index)).Tile(GetPlayerX(index), GetPlayerY(index) + 1).Type <> TILE_TYPE_PLATFORM Or DropDown Then
-                                'If Map(GetPlayerMap(index)).Tile(GetPlayerX(index), GetPlayerY(index) + 1).Type <> TILE_TYPE_RESOURCE Then
-
-                                ' Check to see if the tile is a key and if it is check if its opened
-                                If Map(GetPlayerMap(index)).Tile(GetPlayerX(index), GetPlayerY(index) + 1).Type <> TILE_TYPE_KEY Or (Map(GetPlayerMap(index)).Tile(GetPlayerX(index), GetPlayerY(index) + 1).Type = TILE_TYPE_KEY And TempTile(GetPlayerMap(index)).DoorOpen(GetPlayerX(index), GetPlayerY(index) + 1) = True) Then
-                                    Call SetPlayerY(index, GetPlayerY(index) + 1)
-                                    SendPlayerInert index, inerting, sendToSelf
-                                    Player(index).Character(TempPlayer(index).CurChar).IsInerting = True
-                                    Inerted = True
-                                End If
-                                'End If
-                            End If
-                        End If
-                    End If
-
-                Else
-
-                    ' Check to see if we can move them to the another map
-                    If Map(GetPlayerMap(index)).Down > 0 Then
-                        Call PlayerWarp(index, Map(GetPlayerMap(index)).Down, GetPlayerX(index), 0)
-                        Inerted = True
-                        ' clear their target
-                        TempPlayer(index).Target = 0
-                        TempPlayer(index).TargetType = TARGET_TYPE_NONE
-                        SendTarget index
-                End If
-                End If
-
-            Case DirectionType.Up
-
-                ' Check to make sure not outside of boundries
-                If GetPlayerY(index) > 0 Then
-
-                    ' Check to make sure that the tile is walkable
-                    If Not IsDirBlocked(Map(GetPlayerMap(index)).Tile(GetPlayerX(index), GetPlayerY(index)).DirBlock, DIR_UP + 1) Then
-                        If Map(GetPlayerMap(index)).Tile(GetPlayerX(index), GetPlayerY(index) - 1).Type <> TILE_TYPE_BLOCKED Then
-                            'If Map(GetPlayerMap(index)).Tile(GetPlayerX(index), GetPlayerY(index) - 1).Type <> TILE_TYPE_RESOURCE Then
-
-                            If JumpStartY - GetPlayerY(index) < MAX_JUMP_HEIGHT + Jump Or JumpStartY = -1 Then
-
-                                ' Check to see if the tile is a key and if it is check if its opened
-                                If Map(GetPlayerMap(index)).Tile(GetPlayerX(index), GetPlayerY(index) - 1).Type <> TILE_TYPE_KEY Or (Map(GetPlayerMap(index)).Tile(GetPlayerX(index), GetPlayerY(index) - 1).Type = TILE_TYPE_KEY And TempTile(GetPlayerMap(index)).DoorOpen(GetPlayerX(index), GetPlayerY(index) - 1) = True) Then
-                                    Call SetPlayerY(index, GetPlayerY(index) - 1)
-                                    SendPlayerInert index, inerting, sendToSelf
-                                    Player(index).Character(TempPlayer(index).CurChar).IsInerting = True
-                                    Inerted = True
-                                End If
-                            End If
-                            'End If
-                        End If
-                    End If
-
-                Else
-
-                    ' Check to see if we can move them to the another map
-                    If Map(GetPlayerMap(index)).Up > 0 Then
-                        Call PlayerWarp(index, Map(GetPlayerMap(index)).Up, GetPlayerX(index), Map(Map(GetPlayerMap(index)).Up).MaxY)
-                        Inerted = True
-                        ' clear their target
-                        TempPlayer(index).Target = 0
-                        TempPlayer(index).TargetType = TARGET_TYPE_NONE
-                        SendTarget index
-                End If
-                End If
-        End Select
-
-        With Map(GetPlayerMap(index)).Tile(GetPlayerX(index), GetPlayerY(index))
-            ' Check to see if the tile is a warp tile, and if so warp them
-            If .Type = TILE_TYPE_WARP Then
-                mapNum = .Data1
-                x = .Data2
-                y = .Data3
-                Call PlayerWarp(index, mapNum, x, y)
-                Inerted = True
-            End If
-
-            ' Check to see if the tile is a door tile, and if so warp them
-            If .Type = TILE_TYPE_DOOR Then
-                mapNum = .Data1
-                x = .Data2
-                y = .Data3
-                ' send the animation to the map
-                SendDoorAnimation GetPlayerMap(index), GetPlayerX(index), GetPlayerY(index)
-            Call PlayerWarp(index, mapNum, x, y)
-                Inerted = True
-            End If
-
-            ' Check for key trigger open
-            If .Type = TILE_TYPE_KEYOPEN Then
-                x = .Data1
-                y = .Data2
-
-                If Map(GetPlayerMap(index)).Tile(x, y).Type = TILE_TYPE_KEY And TempTile(GetPlayerMap(index)).DoorOpen(x, y) = False Then
-                    TempTile(GetPlayerMap(index)).DoorOpen(x, y) = True
-                    TempTile(GetPlayerMap(index)).DoorTimer = GetTickCount
-                    SendMapKey index, x, y, 1
-                Call MapMsg(GetPlayerMap(index), "A door has been unlocked.", White)
-                End If
-            End If
-
-            ' Check for a shop, and if so open it
-            If .Type = TILE_TYPE_SHOP Then
-                x = .Data1
-                If x > 0 Then ' shop exists?
-                    If Len(Trim$(Shop(x).Name)) > 0 Then ' name exists?
-                        SendOpenShop index, x
-                    TempPlayer(index).InShop = x ' stops movement and the like
-                    End If
-                End If
-            End If
-
-            ' Check to see if the tile is a bank, and if so send bank
-            If .Type = TILE_TYPE_BANK Then
-                SendBank index
-            TempPlayer(index).InBank = True
-                Inerted = True
-            End If
-
-            ' Check if it's a heal tile
-            If .Type = TILE_TYPE_HEAL Then
-                VitalType = .Data1
-                amount = .Data2
-                If Not GetPlayerVital(index, VitalType) = GetPlayerMaxVital(index, VitalType) Then
-                    If VitalType = Vitals.HP Then
-                        Colour = BrightGreen
-                    Else
-                        Colour = BrightBlue
-                    End If
-                    SendActionMsg GetPlayerMap(index), "+" & amount, Colour, ACTIONMSG_SCROLL, GetPlayerX(index) * 32, GetPlayerY(index) * 32, 1
-                SetPlayerVital index, VitalType, GetPlayerVital(index, VitalType) + amount
-                PlayerMsg index, "You feel rejuvinating forces flowing through your boy.", BrightGreen
-                Call SendVital(index, VitalType)
-                    ' send vitals to party if in one
-                    If TempPlayer(index).InParty > 0 Then SendPartyVitals TempPlayer(index).InParty, index
-            End If
-                Inerted = True
-            End If
-
-            ' Check if it's a trap tile
-            If .Type = TILE_TYPE_TRAP Then
-                amount = .Data1
-                SendActionMsg GetPlayerMap(index), "-" & amount, BrightRed, ACTIONMSG_SCROLL, GetPlayerX(index) * 32, GetPlayerY(index) * 32, 1
-            If GetPlayerVital(index, HP) - amount <= 0 Then
-                    KillPlayer index
-                PlayerMsg index, "You're killed by a trap.", BrightRed
-            Else
-                    SetPlayerVital index, HP, GetPlayerVital(index, HP) - amount
-                PlayerMsg index, "You're injured by a trap.", BrightRed
-                Call SendVital(index, HP)
-                    ' send vitals to party if in one
-                    If TempPlayer(index).InParty > 0 Then SendPartyVitals TempPlayer(index).InParty, index
-            End If
-                Inerted = True
-            End If
-
-            ' Slide
-            If .Type = TILE_TYPE_SLIDE Then
-                ForcePlayerMove index, MOVING_WALKING, GetPlayerDir(index)
-            Inerted = True
-            End If
-        End With
-
-        ' They tried to hack
-        If Inerted = False Then
-            PlayerWarp index, GetPlayerMap(index), GetPlayerX(index), GetPlayerY(index)
-    End If
-
-    End Sub
-
-    Sub PlayerMove(index As Integer, Dir As Integer, Movement As Integer, ExpectingWarp As Boolean)
+    Sub PlayerMove(index As Integer, Dir As Integer, Movement As Integer, ExpectingWarp As Boolean, Inertia As Long, Inerting As Long, JumpStartY As Long, DropDown As Boolean, sendToSelf As Boolean)
         Dim mapNum As Integer, Buffer As ByteStream
         Dim x As Integer, y As Integer, begineventprocessing As Boolean
         Dim Moved As Boolean, DidWarp As Boolean
@@ -1455,6 +1250,10 @@ Module ServerPlayers
         Dim VitalType As Integer, Colour As Integer, amount As Integer
         Dim Inerted As Boolean, InertedSoFar As Boolean
         Dim Jump As Long
+
+        'gotta set this in the bigging of the method
+        JumpStartY = -1
+        DropDown = False
 
         'Debug.Print("Server-PlayerMove")
 
@@ -1464,7 +1263,7 @@ Module ServerPlayers
         End If
 
         ' Check for subscript out of range
-        If IsPlaying(index) = False Or Inertia < DirectionType.Up Or Inertia > DirectionType.Down Or inerting < INERTING_NORMAL Or inerting > INERTING_WATER Then
+        If IsPlaying(index) = False Or Inertia < DirectionType.Up Or Inertia > DirectionType.Down Or Inerting < INERTING_NORMAL Or Inerting > INERTING_WATER Then
             Exit Sub
         End If
 
@@ -1495,19 +1294,19 @@ Module ServerPlayers
                             ' If Map(GetPlayerMap(index)).Tile(GetPlayerX(index), GetPlayerY(index) - 1).Type <> TileType.Resource Then
 
                             If JumpStartY - GetPlayerY(index) < MAX_JUMP_HEIGHT + Jump Or JumpStartY = -1 Then
-                                    ' Check to see if the tile is a key and if it is check if its opened
-                                    If Map(GetPlayerMap(index)).Tile(GetPlayerX(index), GetPlayerY(index) - 1).Type <> TileType.Key OrElse (Map(GetPlayerMap(index)).Tile(GetPlayerX(index), GetPlayerY(index) - 1).Type = TileType.Key AndAlso TempTile(GetPlayerMap(index)).DoorOpen(GetPlayerX(index), GetPlayerY(index) - 1) = True) Then
-                                        SetPlayerY(index, GetPlayerY(index) - 1)
-                                        SendPlayerInert(index, inerting, sendToSelf)
-                                        SendPlayerMove(index, Movement)
-                                        Inerted = True
+                                ' Check to see if the tile is a key and if it is check if its opened
+                                If Map(GetPlayerMap(index)).Tile(GetPlayerX(index), GetPlayerY(index) - 1).Type <> TileType.Key OrElse (Map(GetPlayerMap(index)).Tile(GetPlayerX(index), GetPlayerY(index) - 1).Type = TileType.Key AndAlso TempTile(GetPlayerMap(index)).DoorOpen(GetPlayerX(index), GetPlayerY(index) - 1) = True) Then
+                                    SetPlayerY(index, GetPlayerY(index) - 1)
+                                    SendPlayerInert(index, Inerting, sendToSelf)
+                                    SendPlayerMove(index, Movement)
+                                    Inerted = True
 
-                                        Moved = True
-                                    End If
+                                    Moved = True
+                                End If
 
-                                    'check for event
-                                    For i = 1 To TempPlayer(index).EventMap.CurrentEvents
-                                        If TempPlayer(index).EventMap.EventPages(i).X = GetPlayerX(index) AndAlso TempPlayer(index).EventMap.EventPages(i).Y = GetPlayerY(index) - 1 Then
+                                'check for event
+                                For i = 1 To TempPlayer(index).EventMap.CurrentEvents
+                                    If TempPlayer(index).EventMap.EventPages(i).X = GetPlayerX(index) AndAlso TempPlayer(index).EventMap.EventPages(i).Y = GetPlayerY(index) - 1 Then
                                         If Map(GetPlayerMap(index)).Events(TempPlayer(index).EventMap.EventPages(i).EventId).Pages(TempPlayer(index).EventMap.EventPages(i).PageId).Trigger = 1 Then
                                             'PlayerMsg(Index, "OnTouch event", ColorType.Red)
                                             'Process this event, it is on-touch and everything checks out.
@@ -1525,7 +1324,7 @@ Module ServerPlayers
                                             End If
                                         End If
                                     End If
-                                    Next
+                                Next
 
                                 'End If
                             End If
@@ -1558,7 +1357,7 @@ Module ServerPlayers
                                 If Map(GetPlayerMap(index)).Tile(GetPlayerX(index), GetPlayerY(index) + 1).Type <> TileType.Key OrElse (Map(GetPlayerMap(index)).Tile(GetPlayerX(index), GetPlayerY(index) + 1).Type = TileType.Key AndAlso TempTile(GetPlayerMap(index)).DoorOpen(GetPlayerX(index), GetPlayerY(index) + 1) = True) Then
                                     SetPlayerY(index, GetPlayerY(index) + 1)
                                     'SendPlayerMove(index, Movement)
-                                    SendPlayerInert(index, inerting, sendToSelf)
+                                    SendPlayerInert(index, Inerting, sendToSelf)
                                     Player(index).IsInerting = True
                                     Inerted = True
                                     'Moved = True

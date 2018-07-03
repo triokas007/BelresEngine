@@ -529,8 +529,8 @@ Module ServerNetworkReceive
         Buffer.Dispose()
     End Sub
 
-    Friend Sub Packet_PlayerMsg(index as integer, ByRef data() As Byte)
-        Dim OtherPlayer As String, Msg As String, OtherPlayerindex as Integer
+    Friend Sub Packet_PlayerMsg(index As Integer, ByRef data() As Byte)
+        Dim OtherPlayer As String, Msg As String, OtherPlayerindex As Integer
         Dim buffer As New ByteStream(data)
 
         AddDebug("Recieved CMSG: CPlayerMsg")
@@ -552,6 +552,71 @@ Module ServerNetworkReceive
         Else
             PlayerMsg(index, "Cannot message your self!", ColorType.BrightRed)
         End If
+    End Sub
+
+    Sub HandlePlayerInert(Index As Integer, ByRef Data() As Byte, ByVal StartAddr As Long, ByVal ExtraVar As Long)
+        Dim Inertia As Integer
+        Dim inerting As Integer
+        Dim JumpStartY As Integer
+        Dim DropDown As Boolean
+
+        Dim tmpY As Long
+        Dim buffer As New ByteStream(Data)
+
+        If TempPlayer(Index).GettingMap = True Then
+            Exit Sub
+        End If
+
+        Inertia = buffer.ReadInt32 'CLng(Parse(1))
+        inerting = buffer.ReadInt32 'CLng(Parse(2))
+        tmpY = buffer.ReadInt32
+        JumpStartY = buffer.ReadInt32
+        DropDown = buffer.ReadInt32
+        buffer = Nothing
+
+        ' Prevent hacking
+        If Inertia < DirectionType.Up Or Inertia > DirectionType.Down Then
+            Exit Sub
+        End If
+
+        ' Prevent hacking
+        If inerting < INERTING_NORMAL Or inerting > INERTING_WATER Then
+            Exit Sub
+        End If
+
+        ' Desynced
+        If GetPlayerY(Index) <> tmpY Then
+            SendPlayerXY(Index)
+            Exit Sub
+        End If
+
+        Call PlayerInert(Index, Inertia, inerting, JumpStartY, DropDown)
+    End Sub
+
+    Sub HandlePlayerInertia(ByVal Index As Integer, ByRef Data() As Byte, ByVal StartAddr As Long, ByVal ExtraVar As Long)
+        Dim Inertia As Integer
+        Dim buffer As New ByteStream(Data)
+
+
+        If TempPlayer(Index).GettingMap = True Then
+            Exit Sub
+        End If
+
+        Inertia = buffer.ReadInt32 'CLng(Parse(1))
+        buffer = Nothing
+
+        ' Prevent hacking
+        If Inertia < DirectionType.Up Or Inertia > DirectionType.Down Then
+            Exit Sub
+        End If
+
+        Call SetPlayerInertia(Index, Inertia)
+
+        buffer = New ByteStream(4)
+        buffer.WriteInt32(ServerPackets.SPlayerInertia)
+        buffer.WriteInt32(Index)
+        buffer.WriteInt32(GetPlayerInertia(Index))
+        SendDataToMapBut(Index, GetPlayerMap(Index), buffer.Data, buffer.Head)
     End Sub
 
     Private Sub Packet_PlayerMove(index as integer, ByRef data() As Byte)
