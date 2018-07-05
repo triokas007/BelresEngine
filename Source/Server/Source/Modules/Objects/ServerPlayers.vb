@@ -1241,26 +1241,17 @@ Module ServerPlayers
 
     End Sub
 
-
-    Sub PlayerMove(index As Integer, Dir As Integer, Movement As Integer, ExpectingWarp As Boolean, Inertia As Long, Inerting As Long, JumpStartY As Long, DropDown As Boolean, sendToSelf As Boolean)
-        Dim mapNum As Integer, Buffer As ByteStream
-        Dim x As Integer, y As Integer, begineventprocessing As Boolean
-        Dim Moved As Boolean, DidWarp As Boolean
-        Dim NewMapX As Byte, NewMapY As Byte
-        Dim VitalType As Integer, Colour As Integer, amount As Integer
+    Sub PlayerInert(index As Integer, Dir As Integer, Inertia As Integer, Inerting As Integer, JumpStartY As Integer, DropDown As Boolean, sendToSelf As Boolean)
         Dim Inerted As Boolean, InertedSoFar As Boolean
         Dim Jump As Long
+        Dim mapNum As Integer, Buffer As ByteStream
+        Dim x As Integer, y As Integer, begineventprocessing As Boolean
+        Dim NewMapX As Byte, NewMapY As Byte
+        Dim DidWarp As Boolean
 
         'gotta set this in the bigging of the method
         JumpStartY = -1
         DropDown = False
-
-        'Debug.Print("Server-PlayerMove")
-
-        ' Check for subscript out of range
-        If IsPlaying(index) = False OrElse Dir < DirectionType.Up OrElse Dir > DirectionType.Right OrElse Movement < 1 OrElse Movement > 2 Then
-            Exit Sub
-        End If
 
         ' Check for subscript out of range
         If IsPlaying(index) = False Or Inertia < DirectionType.Up Or Inertia > DirectionType.Down Or Inerting < INERTING_NORMAL Or Inerting > INERTING_WATER Then
@@ -1272,18 +1263,7 @@ Module ServerPlayers
         Inerted = False
         mapNum = GetPlayerMap(index)
 
-
-        ' If GetPlayerEquipment(index, Armor) > 0 Then
-        'Jump = Item(GetPlayerEquipment(index, Armor)).Jump
-        'Else
-        'Jump = 0
-        'End If
-
-        SetPlayerDir(index, Dir)
-        Moved = False
-        mapNum = GetPlayerMap(index)
-
-        Select Case Dir
+        Select Case Inertia
             Case DirectionType.Up
                 ' Check to make sure not outside of boundries
                 If GetPlayerY(index) > 0 Then
@@ -1298,10 +1278,10 @@ Module ServerPlayers
                                 If Map(GetPlayerMap(index)).Tile(GetPlayerX(index), GetPlayerY(index) - 1).Type <> TileType.Key OrElse (Map(GetPlayerMap(index)).Tile(GetPlayerX(index), GetPlayerY(index) - 1).Type = TileType.Key AndAlso TempTile(GetPlayerMap(index)).DoorOpen(GetPlayerX(index), GetPlayerY(index) - 1) = True) Then
                                     SetPlayerY(index, GetPlayerY(index) - 1)
                                     SendPlayerInert(index, Inerting, sendToSelf)
-                                    SendPlayerMove(index, Movement)
+                                    'SendPlayerMove(index, Movement)
                                     Inerted = True
 
-                                    Moved = True
+                                    'Moved = True
                                 End If
 
                                 'check for event
@@ -1338,7 +1318,7 @@ Module ServerPlayers
                             PlayerWarp(index, Map(GetPlayerMap(index)).Up, GetPlayerX(index), NewMapY)
                             Inerted = True
                             DidWarp = True
-                            Moved = True
+                            ' Moved = True
                         End If
                     End If
                 End If
@@ -1398,7 +1378,43 @@ Module ServerPlayers
                         'Moved = True
                     End If
                 End If
+        End Select
 
+    End Sub
+
+    Sub PlayerMove(index As Integer, Dir As Integer, Movement As Integer, ExpectingWarp As Boolean)
+        Dim mapNum As Integer, Buffer As ByteStream
+        Dim x As Integer, y As Integer, begineventprocessing As Boolean
+        Dim Moved As Boolean, DidWarp As Boolean
+        Dim NewMapX As Byte, NewMapY As Byte
+        Dim VitalType As Integer, Colour As Integer, amount As Integer
+
+
+        'Debug.Print("Server-PlayerMove")
+
+        ' Check for subscript out of range
+        If IsPlaying(index) = False OrElse Dir < DirectionType.Up OrElse Dir > DirectionType.Right OrElse Movement < 1 OrElse Movement > 2 Then
+            Exit Sub
+        End If
+
+        ' Call SetPlayerInertia(index, Inertia)
+        'Player(index).Character(TempPlayer(index).CurChar).IsInerting = False
+        'Inerted = False
+        ' mapNum = GetPlayerMap(index)
+
+
+        ' If GetPlayerEquipment(index, Armor) > 0 Then
+        'Jump = Item(GetPlayerEquipment(index, Armor)).Jump
+        'Else
+        'Jump = 0
+        'End If
+
+        SetPlayerDir(index, Dir)
+        Moved = False
+        mapNum = GetPlayerMap(index)
+
+        
+        Select Case Dir
             Case DirectionType.Left
 
                 ' Check to make sure not outside of boundries
