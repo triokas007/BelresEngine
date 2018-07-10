@@ -1373,8 +1373,8 @@ Module ServerNetworkSend
         Buffer.Dispose()
     End Sub
 
-    Sub SendPlayerXY(index as integer)
-        dim buffer as ByteStream
+    Sub SendPlayerXY(index As Integer)
+        Dim buffer As ByteStream
         Buffer = New ByteStream(4)
         buffer.WriteInt32(ServerPackets.SPlayerXY)
         buffer.WriteInt32(GetPlayerX(Index))
@@ -1385,6 +1385,27 @@ Module ServerNetworkSend
         AddDebug("Sent SMSG: SPlayerXY")
 
         buffer.Dispose()
+    End Sub
+
+    Sub SendPlayerInert(ByVal index As Long, ByVal inerting As Long, Optional ByVal sendToSelf As Boolean = False)
+        Dim Buffer As ByteStream
+        Buffer = New ByteStream(4)
+        Set Buffer = New clsBuffer
+        Buffer.WriteLong SPlayerInert
+        Buffer.WriteLong index
+        'Buffer.WriteLong GetPlayerY(index)
+        Buffer.WriteInt32(GetPlayerY(index))
+        'Buffer.WriteLong GetPlayerInertia(index)
+        Buffer.WriteInt32(GetPlayerInertia(index))
+        Buffer.WriteLong inerting
+
+        If Not sendToSelf Then
+            SendDataToMapBut index, GetPlayerMap(index), Buffer.ToArray()
+        Else
+            SendDataToMap GetPlayerMap(index), Buffer.ToArray()
+        End If
+
+        Buffer.Dispose()
     End Sub
 
     Sub SendPlayerMove(index as integer, Movement As Integer)

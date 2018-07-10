@@ -1338,7 +1338,7 @@ Module ServerPlayers
                                     SetPlayerY(index, GetPlayerY(index) + 1)
                                     'SendPlayerMove(index, Movement)
                                     SendPlayerInert(index, Inerting, sendToSelf)
-                                    Player(index).IsInerting = True
+                                    Player(index).Character(index).IsInerting = True
                                     Inerted = True
                                     'Moved = True
                                 End If

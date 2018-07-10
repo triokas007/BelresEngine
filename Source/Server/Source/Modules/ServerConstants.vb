@@ -11,5 +11,8 @@
     Friend Const StatPtsPerLvl As Byte = 3
     Friend Const MAX_MAPX As Byte = 50
     Friend Const MAX_MAPY As Byte = 50
+    Friend Const INERTING_NORMAL As Byte = 1
+    Friend Const INERTING_WATER As Byte = 2
+    Friend Const MAX_JUMP_HEIGHT As Byte = 3
 
 End Module

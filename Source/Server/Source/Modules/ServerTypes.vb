@@ -19,7 +19,6 @@
 
         'multi char
         Dim Character() As CharacterRec
-
     End Structure
 
     Friend Structure CharacterRec
