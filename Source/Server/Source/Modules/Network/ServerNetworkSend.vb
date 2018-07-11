@@ -1390,14 +1390,14 @@ Module ServerNetworkSend
     Sub SendPlayerInert(ByVal index As Long, ByVal inerting As Long, Optional ByVal sendToSelf As Boolean = False)
         Dim Buffer As ByteStream
         Buffer = New ByteStream(4)
-        Set Buffer = New clsBuffer
-        Buffer.WriteLong SPlayerInert
-        Buffer.WriteLong index
+        'Set Buffer = New clsBuffer
+        Buffer.WriteInt32(ServerPackets.SPlayerInert)
+        Buffer.WriteInt32(index)
         'Buffer.WriteLong GetPlayerY(index)
         Buffer.WriteInt32(GetPlayerY(index))
         'Buffer.WriteLong GetPlayerInertia(index)
         Buffer.WriteInt32(GetPlayerInertia(index))
-        Buffer.WriteLong inerting
+        Buffer.WriteInt32(inerting)
 
         If Not sendToSelf Then
             SendDataToMapBut index, GetPlayerMap(index), Buffer.ToArray()
