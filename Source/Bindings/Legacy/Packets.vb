@@ -17,6 +17,7 @@
         SPlayerStats
         SPlayerData
         SPlayerMove
+        SPlayerInert
         SNpcMove
         SPlayerDir
         SNpcDir
@@ -166,6 +167,7 @@
 
         ' Make sure COUNT is below everything else
         COUNT
+
     End Enum
 
     ' Packets sent by client to server

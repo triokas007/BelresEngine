@@ -927,6 +927,12 @@ Module ServerPlayers
         GetPlayerX = Player(index).Character(TempPlayer(index).CurChar).X
     End Function
 
+    Function GetPlayerInertia(ByVal index As Long) As Long
+
+        If index > MAX_PLAYERS Then Exit Function
+        GetPlayerInertia = Player(index).Character(TempPlayer(index).CurChar).Inertia
+    End Function
+
     Function GetPlayerY(index As Integer) As Integer
         GetPlayerY = 0
         If index > MAX_PLAYERS Then Exit Function

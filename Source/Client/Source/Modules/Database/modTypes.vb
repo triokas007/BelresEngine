@@ -62,6 +62,7 @@
         Dim X As Byte
         Dim Y As Byte
         Dim Dir As Byte
+        Dim Inertia As Byte
 
         ' Client use only
         Dim MaxHp As Integer

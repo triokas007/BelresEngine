@@ -632,15 +632,17 @@ Module ModPlayer
 
     End Function
 
-    Sub SetPlayerX(index as integer, x As Integer)
-        If Index > MAX_PLAYERS Then Exit Sub
-        Player(Index).X = X
+    Sub SetPlayerX(index As Integer, x As Integer)
+        If index > MAX_PLAYERS Then Exit Sub
+        Player(index).X = x
     End Sub
 
-    Sub SetPlayerY(index as integer, y As Integer)
-        If Index > MAX_PLAYERS Then Exit Sub
-        Player(Index).Y = Y
+    Sub SetPlayerY(index As Integer, y As Integer)
+        If index > MAX_PLAYERS Then Exit Sub
+        Player(index).Y = y
     End Sub
+
+
 
     Sub SetPlayerSprite(index as integer, sprite As Integer)
         If Index > MAX_PLAYERS Then Exit Sub
