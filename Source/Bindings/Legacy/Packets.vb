@@ -17,6 +17,7 @@
         SPlayerStats
         SPlayerData
         SPlayerMove
+        SPlayerInertia
         SPlayerInert
         SNpcMove
         SPlayerDir
