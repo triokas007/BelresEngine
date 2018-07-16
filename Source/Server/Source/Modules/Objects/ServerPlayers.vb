@@ -1247,7 +1247,7 @@ Module ServerPlayers
 
     End Sub
 
-    Sub PlayerInert(index As Integer, Dir As Integer, Inertia As Integer, Inerting As Integer, JumpStartY As Integer, DropDown As Boolean, sendToSelf As Boolean)
+    Sub PlayerInert(index As Integer, Inertia As Integer, Inerting As Integer, JumpStartY As Integer, DropDown As Boolean)
         Dim Inerted As Boolean, InertedSoFar As Boolean
         Dim Jump As Long
         Dim mapNum As Integer, Buffer As ByteStream
