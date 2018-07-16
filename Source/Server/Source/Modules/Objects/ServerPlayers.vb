@@ -1252,6 +1252,7 @@ Module ServerPlayers
         Dim Jump As Long
         Dim mapNum As Integer, Buffer As ByteStream
         Dim x As Integer, y As Integer, begineventprocessing As Boolean
+        Dim sendToSelf As Boolean
         Dim NewMapX As Byte, NewMapY As Byte
         Dim DidWarp As Boolean
 
