@@ -31,7 +31,7 @@ Log into the game with the client. On the server, open the player list, right cl
 
 Support & Updates:
 ==================
-The home for this engine is http://ascensiongamedev.com/orion-game-engine if you need support or tips in game creation feel free to visit us. If you find any bugs feel free to report them with the issue tracker.
+The home for this engine is http://ascensiongamedev.com/orion-game-engine if you need support or tips in game creation feel free to visit us. If you find any bugs feel free to report them with the issue tracker. PM Jumbofile on the forum for help on this engine specifically.
 
 Im working on updating it to a more useable base to use.
 
