@@ -3,7 +3,7 @@ Belres Engine
 
 Simple 2D ORPG Game Engine written in VB.Net
 
-Home: http://www.ascensionforums.com
+Home: https://www.ascensiongamedev.com/
 
 What is it?
 ===========
