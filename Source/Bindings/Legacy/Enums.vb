@@ -67,6 +67,7 @@
         House
         Craft
         Light
+        Platform
 
         Count
     End Enum
