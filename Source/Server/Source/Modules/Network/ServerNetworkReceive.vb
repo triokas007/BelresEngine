@@ -79,6 +79,12 @@ Module ServerNetworkReceive
 
         Socket.PacketId(ClientPackets.CAdmin) = AddressOf Packet_Admin
 
+        'Inert
+        Socket.PacketId(ClientPackets.CPlayerInertia) = AddressOf HandlePlayerInertia
+        Socket.PacketId(ClientPackets.CPlayerInert) = AddressOf HandlePlayerInert
+        'HandleDataSub(CPlayerInertia) = GetAddress(AddressOf HandlePlayerInertia)
+        'HandleDataSub(CPlayerInert) = GetAddress(AddressOf HandlePlayerInert)
+
         'quests
         Socket.PacketId(ClientPackets.CRequestQuests) = AddressOf Packet_RequestQuests
         Socket.PacketId(ClientPackets.CQuestLogUpdate) = AddressOf Packet_QuestLogUpdate
@@ -554,16 +560,16 @@ Module ServerNetworkReceive
         End If
     End Sub
 
-    Sub HandlePlayerInert(Index As Integer, ByRef Data() As Byte, ByVal StartAddr As Long, ByVal ExtraVar As Long)
+    Sub HandlePlayerInert(index As Integer, ByRef data() As Byte)
         Dim Inertia As Integer
         Dim inerting As Integer
         Dim JumpStartY As Integer
         Dim DropDown As Boolean
 
         Dim tmpY As Long
-        Dim buffer As New ByteStream(Data)
+        Dim buffer As New ByteStream(data)
 
-        If TempPlayer(Index).GettingMap = True Then
+        If TempPlayer(index).GettingMap = True Then
             Exit Sub
         End If
 
@@ -585,17 +591,17 @@ Module ServerNetworkReceive
         End If
 
         ' Desynced
-        If GetPlayerY(Index) <> tmpY Then
-            SendPlayerXY(Index)
+        If GetPlayerY(index) <> tmpY Then
+            SendPlayerXY(index)
             Exit Sub
         End If
 
-        Call PlayerInert(Index, Inertia, inerting, JumpStartY, DropDown)
+        Call PlayerInert(index, Inertia, inerting, JumpStartY, DropDown)
     End Sub
 
-    Sub HandlePlayerInertia(ByVal Index As Integer, ByRef Data() As Byte, ByVal StartAddr As Long, ByVal ExtraVar As Long)
+    Sub HandlePlayerInertia(ByVal Index As Integer, ByRef data() As Byte)
         Dim Inertia As Integer
-        Dim buffer As New ByteStream(Data)
+        Dim buffer As New ByteStream(data)
 
 
         If TempPlayer(Index).GettingMap = True Then

@@ -246,6 +246,10 @@
 
         CAdmin
 
+        'inert
+        CPlayerInertia
+        CPlayerInert
+
         'quests
         CRequestQuests
         CQuestLogUpdate
