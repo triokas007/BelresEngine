@@ -352,7 +352,7 @@ Partial Class FrmMenu
         Me.pnlNewChar.Controls.Add(Me.cmbClass)
         Me.pnlNewChar.Controls.Add(Me.txtCharName)
         Me.pnlNewChar.ForeColor = System.Drawing.Color.White
-        Me.pnlNewChar.Location = New System.Drawing.Point(0, 0)
+        Me.pnlNewChar.Location = New System.Drawing.Point(162, 368)
         Me.pnlNewChar.Name = "pnlNewChar"
         Me.pnlNewChar.Size = New System.Drawing.Size(1920, 1080)
         Me.pnlNewChar.TabIndex = 43

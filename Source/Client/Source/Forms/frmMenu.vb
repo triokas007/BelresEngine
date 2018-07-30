@@ -44,6 +44,10 @@ Friend Class FrmMenu
         pnlLogin.Left = (srnWidth / 2) - (pnlLogin.Width / 2)
         pnlLogin.Top = (srnHeight / 2) - (pnlLogin.Height / 2)
 
+        'Class select pos
+        pnlNewChar.Left = 0
+        pnlNewChar.Top = 0
+
         'exit button pos
         btnExit.Left = srnWidth - (btnExit.Width + space)
         btnExit.Top = srnHeight - (btnExit.Height + space)
