@@ -231,6 +231,20 @@ Module ClientNetworkSend
         Buffer.Dispose()
     End Sub
 
+    Friend Sub SendPlayerInert()
+        Dim buffer As New ByteStream(4)
+
+        buffer.WriteInt32(ClientPackets.CPlayerInert)
+        buffer.WriteInt32(GetPlayerInertia(Myindex))
+        buffer.WriteInt32(Player(Myindex).inerting)
+        buffer.WriteInt32(Player(Myindex).Y)
+        buffer.WriteInt32(JumpStartY)
+        buffer.WriteInt32(Player(Myindex).DropDown)
+
+        Socket.SendData(buffer.Data, buffer.Head)
+        buffer.Dispose()
+    End Sub
+
     Friend Sub SendPlayerMove()
         dim buffer as New ByteStream(4)
 
@@ -242,6 +256,16 @@ Module ClientNetworkSend
 
         Socket.SendData(Buffer.Data, Buffer.Head)
         Buffer.Dispose()
+    End Sub
+
+    Friend Sub SendPlayerInertia()
+        Dim buffer As New ByteStream(4)
+
+        buffer.WriteInt32(ClientPackets.CPlayerInertia)
+        buffer.WriteInt32(GetPlayerInertia(Myindex))
+
+        Socket.SendData(buffer.Data, buffer.Head)
+        buffer.Dispose()
     End Sub
 
     Friend Sub SayMsg(text As String)

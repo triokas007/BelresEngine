@@ -49,6 +49,10 @@ Module ModConstants
     Friend Const WalkSpeed As Byte = 6
     Friend Const RunSpeed As Byte = 10
 
+    'Inertia stuff
+    Friend Const INERTING_NORMAL As Byte = 1
+    Friend Const INERTING_WATER As Byte = 2
+
     ' Tile size constants
     Friend Const PicX As Integer = 32
     Friend Const PicY As Integer = 32

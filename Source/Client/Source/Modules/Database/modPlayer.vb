@@ -642,7 +642,16 @@ Module ModPlayer
         Player(index).Y = y
     End Sub
 
+    Function GetPlayerInertia(Index As Integer) As Integer
+        If Index > MAX_PLAYERS Then Exit Function
+        GetPlayerInertia = Player(Index).Inertia
+    End Function
 
+    Sub SetPlayerInertia(Index As Integer, Inertia As Integer)
+
+        If Index > MAX_PLAYERS Then Exit Sub
+        Player(Index).Inertia = Inertia
+    End Sub
 
     Sub SetPlayerSprite(index as integer, sprite As Integer)
         If Index > MAX_PLAYERS Then Exit Sub
