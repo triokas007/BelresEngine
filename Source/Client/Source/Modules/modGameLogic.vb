@@ -171,6 +171,8 @@ Module ModGameLogic
 
                 SyncLock MapLock
                     If CanMoveNow Then
+                        CheckGround()   ' Check to see if we can allow gravity
+                        CheckInertia()  ' Check to see if the player is trying to fall/jump
                         CheckMovement() ' Check if player is trying to move
                         CheckAttack()   ' Check to see if player is trying to attack
                     End If
@@ -181,6 +183,7 @@ Module ModGameLogic
                         For i = 1 To TotalOnline 'MAX_PLAYERS
                             If IsPlaying(i) Then
                                 ProcessMovement(i)
+                                ProcessInertia(i)
                                 If PetAlive(i) Then
                                     ProcessPetMovement(i)
                                 End If

@@ -421,6 +421,40 @@ Module ModPlayer
 
     End Function
 
+    Sub ProcessInertia(Index As Integer)
+        Dim InertiaSpeed As Integer
+        Dim TempOnGround As Boolean
+
+        ' Check if player is inerting, and if so process moving them over
+        Select Case Player(Index).inerting
+            Case INERTING_NORMAL : InertiaSpeed = ((ElapsedTime / 1000) * ((NORMAL_VELOCITY * Player(Index).WaterVelocity) * SizeX))
+            Case Else : Exit Sub
+        End Select
+
+        Select Case GetPlayerInertia(Index)
+            Case DirectionType.Up
+                Player(Index).YOffset = Player(Index).YOffset - InertiaSpeed
+                If Player(Index).YOffset < 0 Then Player(Index).YOffset = 0
+
+            Case DirectionType.Down
+                Player(Index).YOffset = Player(Index).YOffset + InertiaSpeed
+                If Player(Index).YOffset > 0 Then Player(Index).YOffset = 0
+        End Select
+
+        ' Check if completed inerting over to the next tile
+        If Player(Index).inerting > 0 Then
+            If GetPlayerInertia(Index) = DirectionType.Down Then
+                If Player(Index).YOffset >= 0 Then
+                    Player(Index).inerting = 0
+                End If
+            Else
+                If Player(Index).YOffset <= 0 Then
+                    Player(Index).inerting = 0
+                End If
+            End If
+        End If
+    End Sub
+
     Sub ProcessMovement(index as integer)
         Dim movementSpeed As Integer
 
