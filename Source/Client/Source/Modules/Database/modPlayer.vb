@@ -76,6 +76,99 @@ Module ModPlayer
         End If
 
     End Sub
+    Function IsTryingToInert() As Boolean
+        If DirDown Or DirUp Then
+            IsTryingToInert = True
+        End If
+    End Function
+
+    Function CanInert() As Boolean
+        Dim d As Integer, Jump As Integer
+        ' If debug mode, handle error then exit out
+        If Options.Debug = 1 Then On Error GoTo errorhandler
+
+        CanInert = True
+
+        ' Make sure they aren't trying to fall/jump when they are already falling/jumping
+        If Player(Myindex).inerting <> 0 Then
+            CanInert = False
+            Exit Function
+        End If
+
+        d = GetPlayerInertia(Myindex)
+
+        If GetPlayerEquipment(Myindex, Armor) > 0 Then
+            Jump = Item(GetPlayerEquipment(Myindex, Armor)).Jump
+        Else
+            Jump = 0
+        End If
+
+
+        If DirDown Then
+            Call SetPlayerInertia(Myindex, DIR_DOWN)
+
+            ' Check to see if they are trying to fall out of bounds
+            If GetPlayerY(Myindex) < Map.MaxY Then
+                If CheckDirection(DIR_DOWN) Then
+                    CanInert = False
+
+                    ' Set the new direction if they weren't facing that direction
+                    If d <> DIR_DOWN Then
+                        Call SendPlayerInertia()
+                    End If
+
+                    Exit Function
+                End If
+
+            Else
+
+                ' Check if they can warp to a new map
+                If Map.Down > 0 Then
+                    Call MapEditorLeaveMap
+                    Call SendPlayerRequestNewMap(DIR_DOWN)
+                    GettingMap = True
+                    CanMoveNow = False
+                End If
+
+                CanInert = False
+                Exit Function
+            End If
+        End If
+
+        If DirUp Then
+            Call SetPlayerInertia(Myindex, DIR_UP)
+
+            ' Check to see if they are trying to jump out of bounds
+            If GetPlayerY(Myindex) > 0 Then
+                If JumpStartY - GetPlayerY(Myindex) >= MAX_JUMP_HEIGHT + Jump Or CheckDirection(DIR_UP) Then
+                    CanInert = False
+                    DirUp = False
+
+                    ' Set the new direction if they weren't facing that direction
+                    If d <> DIR_UP Then
+                        Call SendPlayerInertia()
+                    End If
+
+                    Exit Function
+                End If
+
+            Else
+
+                ' Check if they can warp to a new map
+                If Map.Up > 0 Then
+                    Call MapEditorLeaveMap
+                    Call SendPlayerRequestNewMap(DIR_UP)
+                    GettingMap = True
+                    CanMoveNow = False
+                Else
+                    DirUp = False
+                End If
+
+                CanInert = False
+                Exit Function
+            End If
+        End If
+    End Function
 
     Sub CheckMovement()
 
